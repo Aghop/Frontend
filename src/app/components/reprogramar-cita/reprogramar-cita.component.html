@@ -1,37 +1,54 @@
-<div class="modal-header">
-    <h4 class="modal-title">Reprogramar cita</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 
-</div>
+      <div class="modal-content">
 
-<div class="modal-body">
+        
+            <div class="modal-header">
+                <h1 class="modal-title">Reprogramar cita</h1>
+                <button type="button" class="btn-close" aria-label="Close"
+                    (click)="activeModal.dismiss('Cross click')"></button>
 
-    <form [formGroup]="reproForm" class="m-2">
+            </div>
 
-        <div class="form-group">
+            <div class="modal-body">
 
-            <label for="fecha">Nueva fecha cita</label>
-            <ngb-datepicker (dateSelect)="onDateSelect($event)"></ngb-datepicker>
+                <form [formGroup]="reproForm" class="m-2">
+
+                    <div class="form-group">
+
+                        <label for="fecha">Nueva fecha cita </label> <br>
+                        <ngb-datepicker (dateSelect)="onDateSelect($event)"></ngb-datepicker>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Nueva hora cita </label> <br>
+                        <input type="time" id="timeInput" name="timeInput" ng-model="time.value"
+                            formControlName="timeInput" placeholder="HH:mm" ng-min="08:00:00" ng-max="17:00:00"
+                            required /><br>
+                        <mat-error *ngIf="reproForm.get('timeInput')?.errors?.required">
+                            La hora es <strong>requerida</strong>
+                        </mat-error>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" formControlName="accept" id="accept" class="form-check-input">Acepto
+                            reprogramar la cita
+                        </label> <br>
+                        <mat-error *ngIf="reproForm.get('accept')?.errors?.required">
+                            Aceptar es <strong>requerido</strong>
+                        </mat-error>
+
+                    </div>
+
+
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button [disabled]="reproForm.invalid" type="button" class="btn btn-outline-dark" id="accept"
+                    (click)="onClickAccept(); activeModal.close('Close click')">Aceptar</button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="fecha">Nueva hora cita</label>
-            <input type="time" id="timeInput" name="input" ng-model="time.value" formControlName="timeInput" placeholder="HH:mm:ss" min="08:00:00"
-                max="17:00:00" required />
-
-        </div>
-        <div class="form-group">
-            <label for="accept">Acepto reprogramar la cita</label>
-            <input type="checkbox" formControlName="accept" id="accept" class="form-check-input">
-
-        </div>
-
-
-
-    </form>
-
-</div>
-
-<div class="modal-footer">
-    <button [disabled]="reproForm.invalid" type="button" class="btn btn-outline-dark"
-        (click)="onClickAccept(); activeModal.close('Close click')">Aceptar</button>
-</div>
+   

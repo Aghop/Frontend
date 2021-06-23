@@ -28,8 +28,8 @@ export class ReprogramarCitaComponent implements OnInit {
     this.date = new Date();
 
     this.reproForm = this._builder.group({
-      timeInput: [],
-      accept: [null, Validators.required],
+      timeInput: ['', Validators.required],
+      accept: [null,Validators.required],
     })
   }
   ngOnInit(): void {
@@ -49,8 +49,13 @@ export class ReprogramarCitaComponent implements OnInit {
     this.servicioCitas.updateCita(this.cita).subscribe(() => {
       console.log('Content updated successfully!')
     })
+    window.location.reload();
   }
+
+
   onDateSelect(valor: NgbDateStruct) {
     this.date.setFullYear(valor.year, valor.month, valor.day);
   }
+
+
 }

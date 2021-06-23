@@ -24,7 +24,7 @@ public citaSubscription: Subscription;
 
   ) {
     this.cancelForm = this._builder.group({
-      razon: [],
+      razon: ["", Validators.required],
       accept: [null, Validators.required],
     })
   } 
@@ -44,6 +44,7 @@ public citaSubscription: Subscription;
     this.citaSubscription = this.servicioCitas.updateCita(this.cita).subscribe(() => {
       console.log('Content updated successfully!')
     })
+    window.location.reload();
   }
 
 }

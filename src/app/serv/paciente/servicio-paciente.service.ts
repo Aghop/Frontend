@@ -22,8 +22,8 @@ export class ServicioPacienteService {
    return paciente;
   }
 
-  public async getPacientes(){
-    let pacientes = this.servicio.get(`${this.servidor}/api/paciente/all`);
+  public getPacientes(){
+    let pacientes = this.servicio.get<Paciente[]>(`${this.servidor}/api/paciente/all`);
     return pacientes;
    }
 

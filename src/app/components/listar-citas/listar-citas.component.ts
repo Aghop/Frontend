@@ -53,7 +53,8 @@ export class ListarCitasComponent implements OnInit, OnDestroy{
     this.especialidad$ = this.servicioExtra.getEspecialidades();
   }
   ngOnDestroy(): void {
-    
+    this.medicoSubscription.unsubscribe();
+    this.especialidadSubscription.unsubscribe();
   }
 
   ngOnInit(): void {

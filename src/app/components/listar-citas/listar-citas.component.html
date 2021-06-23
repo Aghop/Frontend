@@ -1,88 +1,84 @@
 <ng-container *ngIf="(citas$ | async); let citas;">
-    <ng-container *ngIf="(medico$ | async); let medico;">
-        <ng-container *ngIf="(especialidad$ | async); let especialidad;">
 
 
-            <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
+    <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
 
 
-                <label class="btn btn-secondary" for="option1">
-                    <input type="radio" class="btn-check" name="options" id="option1" [(ngModel)]="radioSelected"
-                        value="option1" autocomplete="off" checked hidden> Citas abiertas ({{citas | countCita: 1}})
-                </label>
+        <label class="btn btn-secondary" for="option1">
+            <input type="radio" class="btn-check" name="options" id="option1" [(ngModel)]="radioSelected"
+                value="option1" autocomplete="off" checked hidden> Citas abiertas ({{citas | countCita: 1}})
+        </label>
 
-                <label class="btn btn-secondary" for="option2">
-                    <input type="radio" class="btn-check" name="options" id="option2" [(ngModel)]="radioSelected"
-                        value="option2" autocomplete="off" hidden> Historial de citas
-                </label>
+        <label class="btn btn-secondary" for="option2">
+            <input type="radio" class="btn-check" name="options" id="option2" [(ngModel)]="radioSelected"
+                value="option2" autocomplete="off" hidden> Historial de citas
+        </label>
 
-            </div>
+    </div>
 
-            <div class="list-group" *ngIf="radioSelected == 'option1'">
+    <div class="list-group" *ngIf="radioSelected == 'option1'">
 
-                <!-- <a class="list-group-item list-group-item-action" *ngIf="cita.idEstado == 1"> -->
-                <table mat-table [dataSource]="citas | filtroEstado: '1'" matSort class="mat-elevation-z8">
+        <!-- <a class="list-group-item list-group-item-action" *ngIf="cita.idEstado == 1"> -->
+        <table mat-table [dataSource]="(citas$ | async) | filtroEstado: '1'" matSort class="mat-elevation-z8">
 
-                    <ng-container matColumnDef="Fecha">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Hora </th>
-                        <td mat-cell *matCellDef="let cita"> {{cita.fechaHora | date: 'short'}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Medico">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Medico </th>
-                        <td mat-cell *matCellDef="let cita"> {{ medico | medico: cita.idMedico }} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Especialidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
-                        <td mat-cell *matCellDef="let cita"> {{ medico | especialidadId: cita.idMedico |
-                            idToNameEspecialidad: especialidad}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Reprogramar">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Reprogramar </th>
-                        <td mat-cell *matCellDef="let cita"><button (click)="onClickRepro(cita)" class="btn btn-link">
-                                Reprogramar
-                            </button></td>
-                    </ng-container>
-                    <ng-container matColumnDef="Cancelar">
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Hora </th>
+                <td mat-cell *matCellDef="let cita"> {{cita.fechaHora | date: 'short'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Medico">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medico </th>
+                <td mat-cell *matCellDef="let cita"> {{ medico | medico: cita.idMedico }} </td>
+            </ng-container>
+            <ng-container matColumnDef="Especialidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
+                <td mat-cell *matCellDef="let cita"> {{ medico | especialidadId: cita.idMedico |
+                    idToNameEspecialidad: especialidad}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Reprogramar">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Reprogramar </th>
+                <td mat-cell *matCellDef="let cita"><button (click)="onClickRepro(cita)" class="btn btn-link">
+                        Reprogramar
+                    </button></td>
+            </ng-container>
+            <ng-container matColumnDef="Cancelar">
 
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancelar </th>
-                        <td mat-cell *matCellDef="let cita"><button (click)="onClickCancel(cita)" class="btn btn-link">
-                                Cancelar
-                            </button>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
-                </table>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancelar </th>
+                <td mat-cell *matCellDef="let cita"><button (click)="onClickCancel(cita)" class="btn btn-link">
+                        Cancelar
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        </table>
 
-            </div>
+    </div>
 
-            <div class="list-group" *ngIf="radioSelected == 'option2'">
-                <table mat-table [dataSource]="citas | filtroEstado: '2':'3'" matSort class="mat-elevation-z8">
+    <div class="list-group" *ngIf="radioSelected == 'option2'">
+        <table mat-table [dataSource]="citas | filtroEstado: '2':'3'" matSort class="mat-elevation-z8">
 
-                    <ng-container matColumnDef="Fecha">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Hora </th>
-                        <td mat-cell *matCellDef="let cita"> {{cita.fechaHora | date: 'short'}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Medico">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Medico </th>
-                        <td mat-cell *matCellDef="let cita"> {{ medico | medico: cita.idMedico }} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Especialidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
-                        <td mat-cell *matCellDef="let cita"> {{ medico | especialidadId: cita.idMedico |
-                            idToNameEspecialidad: especialidad}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Estado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-                        <td mat-cell *matCellDef="let cita"> {{ cita.idEstado | estado | titlecase}}
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-                </table>
-            </div>
-        </ng-container>
-    </ng-container>
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Hora </th>
+                <td mat-cell *matCellDef="let cita"> {{cita.fechaHora | date: 'short'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Medico">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medico </th>
+                <td mat-cell *matCellDef="let cita"> {{ medico | medico: cita.idMedico }} </td>
+            </ng-container>
+            <ng-container matColumnDef="Especialidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
+                <td mat-cell *matCellDef="let cita"> {{ medico | especialidadId: cita.idMedico |
+                    idToNameEspecialidad: especialidad}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                <td mat-cell *matCellDef="let cita"> {{ cita.idEstado | estado | titlecase}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table>
+    </div>
 </ng-container>

@@ -1,8 +1,8 @@
-import { IdToNamePipe } from './id-to-name.pipe';
+import { IdToNamePipeEspecialidad } from './id-to-name.pipe';
 
-describe('IdToNamePipe', () => {
+describe('IdToNamePipeEspecialidad', () => {
   it('create an instance', () => {
-    const pipe = new IdToNamePipe();
+    const pipe = new IdToNamePipeEspecialidad();
     expect(pipe).toBeTruthy();
   });
 });
