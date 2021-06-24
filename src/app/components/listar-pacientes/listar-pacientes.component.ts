@@ -18,6 +18,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BusquedaPorComunaPipe } from 'src/app/pipes/comunas/busqueda-por-comuna.pipe';
 import { BusquedaPorNombrePipe } from 'src/app/pipes/nombres/busqueda-por-nombre.pipe';
 import { BusquedaPorRegionPipe } from 'src/app/pipes/region/busqueda-por-region.pipe';
+import { CentroMedico } from 'src/app/interfaces/centro-medico';
 
 
 @Component({
@@ -36,6 +37,10 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
   public idRegion: number;
   public idComuna: number;
 
+  public centroMedico: CentroMedico[];
+  public centroMedico$: Observable<CentroMedico[]>;
+  public centroMedicoSubscription: Subscription;
+  
   public id: number;
   public citas$: Observable<Cita[]>;
   public cantCitas: number;
@@ -56,7 +61,7 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
   public radioSelected: string;
   public unstring: string;
   public displayedColumns1 = ['Nombre', 'RUT', 'Direccion', 'Correo electronico', 'Region', 'Comuna'];
-  public displayedColumns2 = ['Nombre', 'Especialidad', 'RUT', 'Centro medico'];
+  public displayedColumns2 = ['Nombre','RUT','Especialidad','Centro Medico'];
 
   public pipeNombre = new BusquedaPorNombrePipe();
   public pipeComuna = new BusquedaPorComunaPipe();
@@ -77,9 +82,10 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
       region: [null],
       comuna: [{ value: null, disabled: true }],
     });
+    this.especialidad$ = this.servicioExtra.getEspecialidades();
+    this.centroMedico$ = this.servicioExtra.getCentros();
     this.citas$ = new Observable();
     this.medico$ = this.servicioMedicos.getMedicos();
-    this.especialidad$ = this.servicioExtra.getEspecialidades();
     this.paciente$ = this.servicioPaciente.getPacientes();
     this.comunas$ = this.servicioExtra.getComunas();
     this.regiones$ = new Observable();
@@ -93,14 +99,15 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(parametros => {
       this.id = parametros['id'];
     })
+    this.radioSelected = "option1";
     this.comunaSubscription = this.comunas$.subscribe((comunasList: Comuna[]) => this.comunas = comunasList);
     this.regiones$ = this.servicioExtra.getRegiones();
     this.citas$ = this.servicioCitas.getCitasPaciente(this.id);
 
     this.medicoSubscription = this.medico$.subscribe((medicosList: Medico[]) => this.medico = medicosList);
     this.pacienteSubscription = this.paciente$.subscribe((pacientesList: Paciente[]) => this.paciente = pacientesList);
-
-    this.especialidadSubscription = this.especialidad$.subscribe((especialidadList: Especialidad[]) => this.especialidad = especialidadList);;
+    this.especialidadSubscription = this.especialidad$.subscribe((especialidadList: Especialidad[]) => this.especialidad = especialidadList);
+    this.centroMedicoSubscription = this.centroMedico$.subscribe((centroMedicoList: CentroMedico[]) => this.centroMedico = centroMedicoList);
   }
   onChange(valor: number) {
     this.idRegion = valor;

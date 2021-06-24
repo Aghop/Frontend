@@ -1,69 +1,112 @@
 <ng-container *ngIf="(regiones$ | async); let regiones;">
-    <form [formGroup]="formFilter" novalidate>
-        <ul>
-            <li>
-                <mat-form-field appearance="fill">
-                    <mat-label>nombre</mat-label>
-                    <input type="text" formControlName="nombre"  matInput>
-                </mat-form-field>
-            </li>
-            <li>
-                <mat-form-field appearance="fill">
-                    <mat-label>Region</mat-label>
-                    <mat-select formControlName="region" (selectionChange)="onChange($event.value)" >
-                        <mat-option [value]=null>Region</mat-option>
-                        <mat-option value="{{regiones}}" *ngFor="let region of regiones" [value]="region.idregion">
-                            {{ region.nombreRegion }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </li>
-            <li>
-                <mat-form-field appearance="fill">
-                    <mat-label></mat-label>
-                    <mat-select formControlName="comuna" >
-                        <mat-option [value]=null> Comuna</mat-option>
-                        <mat-option value="{{comunas}}" *ngFor="let comuna of comunasByRegion"
-                            [value]="comuna.idcomuna">
-                            {{ comuna.nombreComuna}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </li>
-        </ul>
-    </form>
+
+    <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
 
 
-    <table mat-table [dataSource]="pacientesFilter" matSort class="mat-elevation-z8">
+        <label class="btn btn-secondary" for="option1">
+            <input type="radio" class="btn-check" name="options" id="option1" [(ngModel)]="radioSelected"
+                value="option1" autocomplete="off" checked hidden> Ver Pacientes
+        </label>
 
-        <ng-container matColumnDef="Nombre">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente.nombre}} </td>
-        </ng-container>
-        <ng-container matColumnDef="RUT">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> RUT </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente.rut}}{{ paciente.digVer}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Direccion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Direccion </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente.direccion}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Correo electronico">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo Electronico </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente.email}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Region">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Region </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente | idToNameRegion: regiones }}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Comuna">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Comuna </th>
-            <td mat-cell *matCellDef="let paciente"> {{paciente | idToNameComuna: comunas }}
-            </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
-    </table>
+        <label class="btn btn-secondary" for="option2">
+            <input type="radio" class="btn-check" name="options" id="option2" [(ngModel)]="radioSelected"
+                value="option2" autocomplete="off" hidden> Ver Medicos
+        </label>
+
+    </div>
+
+    <div class="list-group" *ngIf="radioSelected == 'option1'">
+        <form [formGroup]="formFilter" novalidate>
+            <ul>
+                <li>
+                    <mat-form-field appearance="fill">
+                        <mat-label>nombre</mat-label>
+                        <input type="text" formControlName="nombre" matInput>
+                    </mat-form-field>
+                </li>
+                <li>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Region</mat-label>
+                        <mat-select formControlName="region" (selectionChange)="onChange($event.value)">
+                            <mat-option [value]=null>Region</mat-option>
+                            <mat-option value="{{regiones}}" *ngFor="let region of regiones" [value]="region.idregion">
+                                {{ region.nombreRegion }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </li>
+                <li>
+                    <mat-form-field appearance="fill">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="comuna">
+                            <mat-option [value]=null> Comuna</mat-option>
+                            <mat-option value="{{comunas}}" *ngFor="let comuna of comunasByRegion"
+                                [value]="comuna.idcomuna">
+                                {{ comuna.nombreComuna}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </li>
+            </ul>
+        </form>
+
+
+        <table mat-table [dataSource]="pacientesFilter" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.nombre}} </td>
+            </ng-container>
+            <ng-container matColumnDef="RUT">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> RUT </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.rut}}{{ paciente.digVer}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Direccion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Direccion </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.direccion}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Correo electronico">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo Electronico </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.email}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Region">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Region </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.idRegion | idToNameRegion: regiones }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Comuna">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Comuna </th>
+                <td mat-cell *matCellDef="let paciente"> {{paciente.idComuna | idToNameComuna: comunas }}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        </table>
+    </div>
+    <div class="list-group" *ngIf="radioSelected == 'option2'">
+        <table mat-table [dataSource]="medico" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let med"> {{med.nombre}} {{med.apellidos}} </td>
+            </ng-container>
+            <ng-container matColumnDef="RUT">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> RUT </th>
+                <td mat-cell *matCellDef="let med"> {{med.rut}}-{{ med.digVer}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Especialidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
+                <td mat-cell *matCellDef="let med"> {{med.idEspecialidad | idToNameEspecialidad: especialidad}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Centro Medico">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Centro Medico </th>
+                <td mat-cell *matCellDef="let med"> {{med.idcentroMedico | idToNameCentro: centroMedico}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table>
+    </div>
 </ng-container>
