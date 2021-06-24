@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">Editar cita</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+
+</div>
+
+<div class="modal-body">
+
+    <form [formGroup]="editForm" class="m-2">
+
+        <div class="form-group">
+
+            <label>Razón</label>
+            <textarea formControlName="razon" type="text" class="form-control" maxlength="255"
+                placeholder="Razón"> </textarea>
+
+        </div>
+        <div class="form-group">      
+                <label>Estado de la cita</label>
+                <select formControlName="estado" required>
+                    <option value="{{estado}}" *ngFor="let num of estado" [value]="num.name"> {{ num.name | estado }}
+                    </option>
+                </select>
+                <mat-error *ngIf="editForm.get('estado')?.errors?.required">
+                    El estado de la cita es <strong>requerido</strong>
+                </mat-error>
+        </div>
+        <div class="form-group">
+            <label>
+            <input type="checkbox" formControlName="accept" id="accept" class="form-check-input">Acepto modificar la descripcion
+            </label><br>
+            <mat-error *ngIf="editForm.get('accept')?.errors?.required">
+                Aceptar es <strong>requerido</strong>
+            </mat-error>
+        </div>
+
+
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button [disabled]="editForm.invalid" type="button" class="btn btn-outline-dark"
+        (click)="onClickAccept(); activeModal.close('Close click')">Aceptar</button>
+</div>

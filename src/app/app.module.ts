@@ -36,6 +36,8 @@ import { IdToNameRegionPipe } from './pipes/region/id-to-name-region.pipe';
 import { BusquedaPorNombrePipe } from './pipes/nombres/busqueda-por-nombre.pipe';
 import { BusquedaPorRegionPipe } from './pipes/region/busqueda-por-region.pipe';
 import { BusquedaPorComunaPipe } from './pipes/comunas/busqueda-por-comuna.pipe';
+import { ListarEditcitasComponent } from './components/listar-editcitas/listar-editcitas.component';
+import { EditarDescripcionComponent } from './components/editar-descripcion/editar-descripcion.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { BusquedaPorComunaPipe } from './pipes/comunas/busqueda-por-comuna.pipe'
     IdToNameRegionPipe,
     BusquedaPorNombrePipe,
     BusquedaPorRegionPipe,
-    BusquedaPorComunaPipe
+    BusquedaPorComunaPipe,
+    ListarEditcitasComponent,
+    EditarDescripcionComponent
 
   ],
   imports: [
