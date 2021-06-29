@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { Cita } from 'src/app/interfaces/cita';
 import { ServicioCitasService } from 'src/app/serv/cita/servicio-citas.service';
 
@@ -9,13 +10,14 @@ import { ServicioCitasService } from 'src/app/serv/cita/servicio-citas.service';
   templateUrl: './reprogramar-cita.component.html',
   styleUrls: ['./reprogramar-cita.component.scss']
 })
-export class ReprogramarCitaComponent implements OnInit {
+export class ReprogramarCitaComponent implements OnInit, OnDestroy {
   @Input() cita: Cita;
   public reproForm: FormGroup;
   public model: NgbDateStruct;
   public date: Date;
   public timeCut: string[];
   public time: String;
+  public updateSubscription: Subscription;
 
   constructor(
 
@@ -32,15 +34,15 @@ export class ReprogramarCitaComponent implements OnInit {
       accept: [null,Validators.required],
     })
   }
+  ngOnDestroy(): void {
+  }
   ngOnInit(): void {
   }
 
   async onClickAccept() {
-    console.log(this.reproForm.value.timeInput);
-   
+    
     this.time = this.reproForm.value.timeInput;
     this.timeCut = this.time.split(':');
- console.log( parseInt(this.timeCut[0],10) , parseInt(this.timeCut[1],10) );
     this.date.setHours( parseInt(this.timeCut[0],10) , parseInt(this.timeCut[1],10) );
 
     this.cita.fechaHora = this.date;

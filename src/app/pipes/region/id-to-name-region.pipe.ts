@@ -6,12 +6,18 @@ import { Region } from 'src/app/interfaces/region';
 export class IdToNameRegionPipe implements PipeTransform {
 
   transform(value: unknown, args: Region[]): unknown {
-    for (var i = 0; i < args.length; i++){
+    
+    try {
+      for (var i = 0; i < args.length; i++){
       if (args[i].idregion == value){
         return args[i].nombreRegion;
       }
     }
+    } catch (error) {
+      
+    }
     return null;
+    
   }
 
 }

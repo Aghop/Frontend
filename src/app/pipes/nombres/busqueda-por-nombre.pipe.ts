@@ -5,30 +5,23 @@ import { Paciente } from 'src/app/interfaces/paciente';
   name: 'busquedaPorNombre'
 })
 export class BusquedaPorNombrePipe implements PipeTransform {
-  pacienteaux: Paciente[]=[];
+  
 
   transform(value: Paciente[], args: String): Paciente[] {
     
     try {
+      var pacienteaux: Paciente[]=[];
       if ((args != "")) {
-
         value.forEach(items => {
-           
-          if (items.nombre.toLowerCase().indexOf(args.toLowerCase()) > -1) {
-  
-            if (!this.pacienteaux.includes(items)) {
-              this.pacienteaux.push(items);
-              
+          if ((items.nombre.toLowerCase().indexOf(args.toLowerCase()) > -1) || (items.apellidos.toLowerCase().indexOf(args.toLowerCase()) > -1)) {
+            if (!pacienteaux.includes(items)) {
+              pacienteaux.push(items);
             }
-            
-  
           }
         })
-        return this.pacienteaux;
+        return pacienteaux;
       }
     } catch (error) {
-      console.log(value);
-      return value;
     }
     return value;
     

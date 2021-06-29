@@ -11,6 +11,7 @@ import { ServicioMedicoService } from 'src/app/serv/medico/servicio-medico.servi
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CancelarCitaComponent } from '../cancelar-cita/cancelar-cita.component';
 import { ReprogramarCitaComponent } from '../reprogramar-cita/reprogramar-cita.component';
+import { AgendarHoraComponent } from '../agendar-hora/agendar-hora.component';
 
 
 
@@ -37,7 +38,7 @@ export class ListarCitasComponent implements OnInit, OnDestroy{
 
   public radioSelected: string;
   public displayedColumns1 = ['Fecha', 'Medico', 'Especialidad', 'Reprogramar', 'Cancelar'];
-  public displayedColumns2 = ['Fecha', 'Medico', 'Especialidad', 'Estado'];
+  public displayedColumns2 = ['Fecha', 'Medico', 'Especialidad', 'Descripcion', 'Estado'];
   constructor(
     public servicioCitas: ServicioCitasService, 
     public servicioMedicos: ServicioMedicoService, 
@@ -60,7 +61,13 @@ export class ListarCitasComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(parametros => {
       this.id = parametros['id'];
-    })
+    });
+
+    let datos = JSON.parse(localStorage.getItem('hospital'));
+    if (!datos || datos.id != this.id) {
+      window.location.href="/login";
+    };
+    
     this.radioSelected = "option1";
     this.citas$ = this.servicioCitas.getCitasPaciente(this.id);
 
@@ -78,6 +85,11 @@ export class ListarCitasComponent implements OnInit, OnDestroy{
   onClickRepro(cita: Cita) {
     const modalRef = this.modalService.open(ReprogramarCitaComponent);
     modalRef.componentInstance.cita = cita;
+  }
+
+  onClickAgendar(){
+    const modalRef = this.modalService.open(AgendarHoraComponent);
+    modalRef.componentInstance.id = this.id;
   }
 
 }

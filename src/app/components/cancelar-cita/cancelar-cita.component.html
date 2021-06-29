@@ -1,6 +1,7 @@
 <div class="modal-header">
-    <h4 class="modal-title">Cancelar cita</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    <h1 class="modal-title">Cancelar cita</h1>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"><span
+            aria-hidden="true">&times;</span></button>
 
 </div>
 
@@ -17,7 +18,8 @@
         </div>
         <div class="form-group">
             <label>
-            <input type="checkbox" formControlName="accept" id="accept" class="form-check-input">Acepto cancelar la cita
+                <input type="checkbox" formControlName="accept" id="accept" class="form-check-input">Acepto cancelar la
+                cita
             </label><br>
             <mat-error *ngIf="cancelForm.get('accept')?.errors?.required">
                 Aceptar es <strong>requerido</strong>

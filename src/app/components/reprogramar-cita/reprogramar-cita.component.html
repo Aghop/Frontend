@@ -4,8 +4,8 @@
         
             <div class="modal-header">
                 <h1 class="modal-title">Reprogramar cita</h1>
-                <button type="button" class="btn-close" aria-label="Close"
-                    (click)="activeModal.dismiss('Cross click')"></button>
+                <button type="button" class="close" aria-label="Close"
+                    (click)="activeModal.dismiss('Cross click')"><span aria-hidden="true">&times;</span></button>
 
             </div>
 
@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label for="fecha">Nueva hora cita </label> <br>
                         <input type="time" id="timeInput" name="timeInput" ng-model="time.value"
-                            formControlName="timeInput" placeholder="HH:mm" ng-min="08:00:00" ng-max="17:00:00"
+                            formControlName="timeInput" placeholder="HH:mm" min="08:00:00" max="17:00:00"
                             required /><br>
                         <mat-error *ngIf="reproForm.get('timeInput')?.errors?.required">
                             La hora es <strong>requerida</strong>

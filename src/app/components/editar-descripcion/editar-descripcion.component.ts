@@ -15,28 +15,37 @@ export class EditarDescripcionComponent implements OnInit {
   public editForm: FormGroup;
   public citaSubscription: Subscription;
   public estado = [
-    {name: '1'},
-    {name: '2'},
-    {name: '3'}
+    {
+      id: '1',
+      name: 'Abierta'
+    },
+    {
+      id: '2',
+      name: 'Cancelada'
+    },
+    {
+      id: '3',
+      name: 'Concluida'
+    }
   ]
   constructor(
     public activeModal: NgbActiveModal,
     public _builder: FormBuilder,
-    public servicioCitas: ServicioCitasService)
-     {
-       this.editForm = this._builder.group({
-         razon: ["",Validators.required],
-         accept: [null,Validators.required],
-         estado: [null, Validators.required]
-       })
+    public servicioCitas: ServicioCitasService) {
+    this.editForm = this._builder.group({
+      razon: ["", Validators.required],
+      accept: [null, Validators.required],
+      estado: [null, Validators.required]
+    })
 
-     }
-  ngOnDestroy():void{
+  }
+  ngOnDestroy(): void {
     this.citaSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
   }
+  // se cambia el estado de la cita y se suscribe
   async onClickAccept() {
 
     this.cita.descripcion = this.editForm.value.razon;

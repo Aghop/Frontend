@@ -5,16 +5,13 @@ import { Especialidad } from 'src/app/interfaces/especialidad';
 import { Medico } from 'src/app/interfaces/medico';
 import { ServicioExtrasService } from 'src/app/serv/extra/servicio-extras.service';
 import { ServicioMedicoService } from 'src/app/serv/medico/servicio-medico.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CancelarCitaComponent } from '../cancelar-cita/cancelar-cita.component';
-import { ReprogramarCitaComponent } from '../reprogramar-cita/reprogramar-cita.component';
 import { ServicioPacienteService } from '../../serv/paciente/servicio-paciente.service';
 import { ServicioCitasService } from '../../serv/cita/servicio-citas.service';
 import { Cita } from 'src/app/interfaces/cita';
 import { Paciente } from 'src/app/interfaces/paciente';
 import { Region } from 'src/app/interfaces/region';
 import { Comuna } from 'src/app/interfaces/comuna';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { BusquedaPorComunaPipe } from 'src/app/pipes/comunas/busqueda-por-comuna.pipe';
 import { BusquedaPorNombrePipe } from 'src/app/pipes/nombres/busqueda-por-nombre.pipe';
 import { BusquedaPorRegionPipe } from 'src/app/pipes/region/busqueda-por-region.pipe';
@@ -40,7 +37,7 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
   public centroMedico: CentroMedico[];
   public centroMedico$: Observable<CentroMedico[]>;
   public centroMedicoSubscription: Subscription;
-  
+
   public id: number;
   public citas$: Observable<Cita[]>;
   public cantCitas: number;
@@ -61,7 +58,7 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
   public radioSelected: string;
   public unstring: string;
   public displayedColumns1 = ['Nombre', 'RUT', 'Direccion', 'Correo electronico', 'Region', 'Comuna'];
-  public displayedColumns2 = ['Nombre','RUT','Especialidad','Centro Medico'];
+  public displayedColumns2 = ['Nombre', 'RUT', 'Especialidad', 'Centro Medico'];
 
   public pipeNombre = new BusquedaPorNombrePipe();
   public pipeComuna = new BusquedaPorComunaPipe();
@@ -91,14 +88,25 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
     this.regiones$ = new Observable();
 
   }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
 
+  ngOnDestroy(): void {
+    this.medicoSubscription.unsubscribe();
+    this.pacienteSubscription.unsubscribe();
+    this.especialidadSubscription.unsubscribe();
+    this.centroMedicoSubscription.unsubscribe();
+    this.comunaSubscription.unsubscribe();
+  }
+  
+  // se busca el id del paciente y deniega el paso a un usuario que no sea administrador
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(parametros => {
       this.id = parametros['id'];
     })
+    let datos = JSON.parse(localStorage.getItem('hospitalAdmin'));
+    if (!datos) {
+      window.location.href = `/negado`;
+    }
+
     this.radioSelected = "option1";
     this.comunaSubscription = this.comunas$.subscribe((comunasList: Comuna[]) => this.comunas = comunasList);
     this.regiones$ = this.servicioExtra.getRegiones();
@@ -109,12 +117,13 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
     this.especialidadSubscription = this.especialidad$.subscribe((especialidadList: Especialidad[]) => this.especialidad = especialidadList);
     this.centroMedicoSubscription = this.centroMedico$.subscribe((centroMedicoList: CentroMedico[]) => this.centroMedico = centroMedicoList);
   }
+  // función busca la región y se reinicie el valor de la comuna
   onChange(valor: number) {
     this.idRegion = valor;
     this.formFilter.get('comuna').setValue(null);
     this.formFilter.get('comuna').enable();
   }
-
+// función que cambia las comunas dependiendo de la región que esté elegida
   get comunasByRegion() {
     try {
       return this.comunas.filter(items => {
@@ -124,60 +133,14 @@ export class ListarPacientesComponent implements OnInit, OnDestroy {
       return null;
     }
   }
+// se realizan 3 pipes diferentes, la primera, es filtrar el nombre, luego la región y finalmente la comuna
   get pacientesFilter() {
-    // try {
-    //   this.pacienteaux = this.paciente;
-    //   if ((this.formFilter.value.region != null) || !(this.formFilter.value.nombre == "") || (this.formFilter.value.comuna != null) ||
-    //     (this.formFilter.value.comuna != undefined)) {
-    //     this.pacienteaux = [];
-    //   }
-    //   if (!(this.formFilter.value.nombre == "")) {
-
-    //     this.paciente.forEach(items => {
-    //       this.unstring = this.formFilter.value.nombre;
-
-    //       if (items.nombre.toLowerCase().indexOf(this.unstring.toLowerCase()) > -1) {
-
-    //         if (!this.pacienteaux.includes(items)) {
-    //           this.pacienteaux.push(items);
-    //         }
-
-    //       }
-    //     })
-
-    //   } if (!(this.formFilter.value.region == null)) {
-
-    //     this.paciente.forEach(items => {
-    //       if (items.idRegion == this.formFilter.value.region) {
-
-    //         if (!this.pacienteaux.includes(items)) {
-    //           this.pacienteaux.push(items);
-    //         }
-
-    //       }
-    //     })
-    //   } if (!(this.formFilter.value.comuna == null)) {
-
-    //     this.paciente.forEach(items => {
-
-    //       if (items.idComuna == this.formFilter.value.comuna) {
-
-    //         if (!this.pacienteaux.includes(items)) {
-    //           this.pacienteaux.push(items);
-    //         }
-
-
-    //       }
-    //     })
-    //   }
-    //   return this.pacienteaux;
-    // } catch (error) {
-    //   return null;
-    // }
-    
-     return this.pipeComuna.transform(this.pipeRegion.transform(this.pipeNombre.transform(this.paciente,this.formFilter.value.nombre),this.formFilter.value.region),this.formFilter.value.comuna);
-
+    return this.pipeComuna.transform(
+      this.pipeRegion.transform(
+        this.pipeNombre.transform(this.paciente, this.formFilter.value.nombre),
+        this.formFilter.value.region),
+      this.formFilter.value.comuna
+    );
   }
 
 }
-

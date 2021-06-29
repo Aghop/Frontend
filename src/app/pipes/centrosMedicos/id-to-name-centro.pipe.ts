@@ -5,12 +5,15 @@ import { CentroMedico } from 'src/app/interfaces/centro-medico';
   name: 'idToNameCentro'
 })
 export class IdToNameCentroPipe implements PipeTransform {
-
+  // filtra el id de un centromedico a el nombre de este
   transform(value: unknown, args: CentroMedico[]): unknown {
-    for (var i = 0; i < args.length; i++) {
-      if (args[i].idcentro == value) {
-        return args[i].nombre;
+    try {
+      for (var i = 0; i < args.length; i++) {
+        if (args[i].idcentro == value) {
+          return args[i].nombre;
+        }
       }
+    } catch (error) {
     }
     return null;
   }

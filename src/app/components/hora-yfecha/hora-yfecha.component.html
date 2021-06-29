@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h1 class="modal-title">Agende su hora</h1>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+    
+    <form [formGroup]="agendarForm" class="m-2">
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                    #d="ngbDatepicker"  formControlName="dateInput" id="calendarInput" (dateSelect)="onDateSelect($event)">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="time" id="timeInput" name="timeInput" ng-model="time.value"
+                formControlName="timeInput" placeholder="HH:mm" min="08:00:00" max="17:00:00" required />
+            <!-- <mat-error *ngIf="reproForm.get('timeInput')?.errors?.required">
+                La hora es <strong>requerida</strong>
+            </mat-error> -->
+        </div>
+        <button type="button" class="btn btn-outline-dark" id="accept"
+            (click)="onClickAccept(); activeModal.close('Close click')">Aceptar</button>
+
+    </form>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>

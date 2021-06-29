@@ -5,17 +5,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EstadoPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: unknown): unknown {
     switch (value) {
       
       case 1:
-        return "abierta";
+        return "<span class='abierta estado'>Abierta</span>"
 
       case 2:
-        return "cancelada"
+        return "<span class='cancelada estado'>Cancelada</span>"
        
       case 3:
-        return "concluida"
+        return "<span class='concluida estado'>Concluida</span>"
       
       default:
 

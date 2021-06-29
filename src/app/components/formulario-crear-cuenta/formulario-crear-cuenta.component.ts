@@ -85,14 +85,7 @@ export class FormularioCrearCuentaComponent implements OnInit, OnDestroy {
       return null;
     }
   }
-  validarRut(rut: string): boolean {
-    
-    if ( !rut.match('^[0-9]+$') ) {
-      console.log(rut);
-      return false;
-    }
-    return true;
-  }
+  
   submit() {
     this.pac = {
       idPaciente: 0,
@@ -108,14 +101,13 @@ export class FormularioCrearCuentaComponent implements OnInit, OnDestroy {
       password: this.pacienteForm.value.password,
     }
 
-
-    console.log(this.pacienteForm.value.digVerr);
-
     this.pacienteService.addPaciente(this.pac)
       .subscribe(() => {
         //console.log(res)
         //this.pacienteForm.reset();
       })
+
+      window.location.href="/";
   }
 
 

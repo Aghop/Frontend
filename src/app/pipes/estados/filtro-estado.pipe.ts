@@ -16,12 +16,9 @@ export class FiltroEstadoPipe implements PipeTransform {
       }
       });
     }
-    
     return fruits;
     } catch (error) {
       return null;
     }
-    
   }
-
 }

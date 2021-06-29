@@ -1,7 +1,7 @@
 <div class="modal-header">
-    <h4 class="modal-title">Editar cita</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
-
+    <h1 class="modal-title">Editar cita</h1>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"><span
+        aria-hidden="true">&times;</span></button>
 </div>
 
 <div class="modal-body">
@@ -18,7 +18,7 @@
         <div class="form-group">      
                 <label>Estado de la cita</label>
                 <select formControlName="estado" required>
-                    <option value="{{estado}}" *ngFor="let num of estado" [value]="num.name"> {{ num.name | estado }}
+                    <option value="{{estado}}" *ngFor="let num of estado" [value]="num.id"> {{ num.name }}
                     </option>
                 </select>
                 <mat-error *ngIf="editForm.get('estado')?.errors?.required">

@@ -1,0 +1,34 @@
+<ng-container *ngIf="(medico$ | async); let medicos;">
+
+
+    <table mat-table [dataSource]="medicos" matSort class="mat-elevation-z8 col-12">
+
+        <ng-container matColumnDef="Profesional">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesional </th>
+            <td mat-cell *matCellDef="let medico"> {{medico.nombre }} {{medico.apellidos}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Especialidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
+            <td mat-cell *matCellDef="let medico"> {{ medico.idEspecialidad | idToNameEspecialidad: especialidad }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="CentroMedico">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Centro Medico </th>
+            <td mat-cell *matCellDef="let medico"> {{ medico.idcentroMedico | idToNameCentro: centroMedico }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="AgendarHora">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Agendar Hora </th>
+            <td mat-cell *matCellDef="let medico">
+
+                <button class="btn btn-lg btn-outline-primary" (click)="open(medico.idmedico,id)">Agendar Hora</button>
+
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+    </table>
+
+</ng-container>

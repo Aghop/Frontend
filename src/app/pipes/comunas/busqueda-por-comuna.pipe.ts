@@ -7,32 +7,24 @@ import { Paciente } from 'src/app/interfaces/paciente';
 })
 export class BusquedaPorComunaPipe implements PipeTransform {
 
-  pacienteaux: Paciente[]=[];
+  // filtra las comunas recibidas de un arreglo de paciente
 
   transform(value: Paciente[], args:number): Paciente[] {
     try {
+      var pacienteaux: Paciente[]=[];
       if ((args != null ) || (args != undefined) ) {
-        console.log(value, "value15");
         value.forEach(items => {
-          console.log(items.idComuna,"idcomuna");
-          console.log(args,"args");
           if (items.idComuna === args) {
-               console.log("algo");
-            if (!this.pacienteaux.includes(items)) {
-              this.pacienteaux.push(items);
+            if (!pacienteaux.includes(items)) {
+              pacienteaux.push(items);
             }
-  
           }
         })
-        console.log(this.pacienteaux,"hueal");
-        return this.pacienteaux;
+        return pacienteaux;
       }
     } catch (error) {
       return value;
     }
     return value;
-    
-    
   }
-
 }

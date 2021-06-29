@@ -8,15 +8,14 @@ import { Medico } from 'src/app/interfaces/medico';
 export class EspecialidadIdPipe implements PipeTransform {
 
   transform(value: Medico[], arg: unknown): unknown {
-    for (var i = 0; i < value.length; i++) {
-      if (value[i].idmedico == arg) {
-        
-        return value[i].idEspecialidad;
+    try {
+      for (var i = 0; i < value.length; i++) {
+        if (value[i].idmedico == arg) {
+          return value[i].idEspecialidad;
+        }
       }
+    } catch (error) {
     }
     return null;
   }
-    /* --------------------------- SERPARAR EN 2 PIPES -------------------------- */
-   
-
 }

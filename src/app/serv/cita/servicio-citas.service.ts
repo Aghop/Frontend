@@ -22,8 +22,8 @@ export class ServicioCitasService {
    return citas;
   }
 
-  public deleteCita(id: number){
-    let citas = this.servicio.get(`${this.servidor}/api/delete/cita/${id}`);
+  public deleteCita(id: string){
+    let citas = this.servicio.delete<Cita>(`${this.servidor}/api/cita/delete/${id}/`);
     return citas;
    }
 

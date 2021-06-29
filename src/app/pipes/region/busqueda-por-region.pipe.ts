@@ -7,32 +7,23 @@ import { Region } from 'src/app/interfaces/region';
 })
 export class BusquedaPorRegionPipe implements PipeTransform {
 
-  pacienteaux: Paciente[]=[];
+  
 
   transform(value: Paciente[], args: number): Paciente[] {
-    
     try {
+      var pacienteaux: Paciente[]=[];
       if ((args != null )) {
-       
         value.forEach(items => {
-  
           if (items.idRegion == args) {
-            
-            if (!this.pacienteaux.includes(items)) {
-              this.pacienteaux.push(items);
+            if (!pacienteaux.includes(items)) {
+              pacienteaux.push(items);
             }
-  
           }
         })
-        return this.pacienteaux;
+        return pacienteaux;
       }
     } catch (error) {
-      return value;
     }
- 
     return value;
-    
   }
-
-
 }

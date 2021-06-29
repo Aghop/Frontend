@@ -27,17 +27,22 @@ import { CancelarCitaComponent } from './components/cancelar-cita/cancelar-cita.
 import { ReprogramarCitaComponent } from './components/reprogramar-cita/reprogramar-cita.component';
 import { FormularioCrearCuentaComponent } from './components/formulario-crear-cuenta/formulario-crear-cuenta.component';
 import { ComunasByRegionPipe } from './pipes/comunas/comunas-by-region.pipe';
-import { ListarMedicosComponent } from './components/listar-medicos/listar-medicos.component';
 import { FiltrarMedicosComponent } from './components/filtrar-medicos/filtrar-medicos.component';
 import { IdToNameCentroPipe } from './pipes/centrosMedicos/id-to-name-centro.pipe';
-import { ListarPacientesComponent } from './components/listar-pacientes/listar-pacientes.component';
+import { AgendarHoraComponent } from './components/agendar-hora/agendar-hora.component';
+import { HoraYFechaComponent } from './components/hora-yfecha/hora-yfecha.component';
+import { BusquedaPorComunaPipe } from './pipes/comunas/busqueda-por-comuna.pipe';
 import { IdToNameComunaPipe } from './pipes/comunas/id-to-name-comuna.pipe';
-import { IdToNameRegionPipe } from './pipes/region/id-to-name-region.pipe';
 import { BusquedaPorNombrePipe } from './pipes/nombres/busqueda-por-nombre.pipe';
 import { BusquedaPorRegionPipe } from './pipes/region/busqueda-por-region.pipe';
-import { BusquedaPorComunaPipe } from './pipes/comunas/busqueda-por-comuna.pipe';
+import { IdToNameRegionPipe } from './pipes/region/id-to-name-region.pipe';
+import { ListarPacientesComponent } from './components/listar-pacientes/listar-pacientes.component';
 import { ListarEditcitasComponent } from './components/listar-editcitas/listar-editcitas.component';
 import { EditarDescripcionComponent } from './components/editar-descripcion/editar-descripcion.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LoginComponent } from './components/login/login.component';
+import { NegadoComponent } from './components/negado/negado.component';
 
 @NgModule({
   declarations: [
@@ -54,17 +59,22 @@ import { EditarDescripcionComponent } from './components/editar-descripcion/edit
     ReprogramarCitaComponent,
     FormularioCrearCuentaComponent,
     ComunasByRegionPipe,
-    ListarMedicosComponent,
     FiltrarMedicosComponent,
     IdToNameCentroPipe,
-    ListarPacientesComponent,
+    AgendarHoraComponent,
+    HoraYFechaComponent,
+    BusquedaPorComunaPipe,
     IdToNameComunaPipe,
-    IdToNameRegionPipe,
     BusquedaPorNombrePipe,
     BusquedaPorRegionPipe,
-    BusquedaPorComunaPipe,
+    IdToNameRegionPipe,
+    ListarPacientesComponent,
     ListarEditcitasComponent,
-    EditarDescripcionComponent
+    EditarDescripcionComponent,
+    HeaderComponent,
+    FooterComponent,
+    LoginComponent,
+    NegadoComponent
 
   ],
   imports: [

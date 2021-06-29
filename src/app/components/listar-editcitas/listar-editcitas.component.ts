@@ -20,7 +20,7 @@ import { EditarDescripcionComponent } from '../editar-descripcion/editar-descrip
   templateUrl: './listar-editcitas.component.html',
   styleUrls: ['./listar-editcitas.component.scss']
 })
-export class ListarEditcitasComponent implements OnInit {
+export class ListarEditcitasComponent implements OnInit, OnDestroy {
 
   public id: number;
   public citas$: Observable<Cita[]>;
@@ -37,8 +37,7 @@ export class ListarEditcitasComponent implements OnInit {
 
 
   public radioSelected: string;
-  public displayedColumns1 = ['Fecha', 'Medico', 'Especialidad', 'Editar'];
-  public displayedColumns2 = ['Fecha', 'Medico', 'Especialidad', 'Estado'];
+  public displayedColumns = ['Fecha', 'Medico', 'Especialidad', 'Editar', 'Estado','Eliminar'];
   constructor(
     public servicioCitas: ServicioCitasService, 
     public servicioMedicos: ServicioMedicoService, 
@@ -53,15 +52,24 @@ export class ListarEditcitasComponent implements OnInit {
     this.medico$ = this.servicioMedicos.getMedicos();;
     this.especialidad$ = this.servicioExtra.getEspecialidades();
   }
+  // se desuscriben ambas suscripciones
   ngOnDestroy(): void {
     this.medicoSubscription.unsubscribe();
     this.especialidadSubscription.unsubscribe();
   }
 
+
   ngOnInit(): void {
+    //se obtiene el id para guardar las citas de ese paciente
     this.activatedRoute.params.subscribe(parametros => {
       this.id = parametros['id'];
     })
+    // se obtienen las cookies para que solo lo vea un administrador
+    let datos = JSON.parse(localStorage.getItem('hospitalAdmin'));
+    if (!datos) {
+      window.location.href=`/negado`;
+    }
+    // se obtienen la información del backend mediante una suscripción hacia una lista de médicos y especialidad
     this.radioSelected = "option1";
     this.citas$ = this.servicioCitas.getCitasPaciente(this.id);
 
@@ -70,8 +78,14 @@ export class ListarEditcitasComponent implements OnInit {
     this.especialidadSubscription = this.especialidad$.subscribe( (especialidadList: Especialidad[]) => this.especialidad = especialidadList  );;
 
   }
-
-
+//se elimina una cita mediante un suscribe con el id de la cita
+  onClickDelete(id: string){
+    this.servicioCitas.deleteCita(id).subscribe(() => {
+      console.log('Content deleted successfully!')
+      window.location.reload();
+    });
+  }
+// se abre un modal para editar la cita
   onClickEdit(cita: Cita) {
     const modalRef = this.modalService.open(EditarDescripcionComponent);
     modalRef.componentInstance.cita = cita;

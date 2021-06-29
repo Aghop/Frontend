@@ -18,7 +18,7 @@ export class ServicioPacienteService {
    * @return paciente - paciente
    */
   public getPacienteById(id: number){
-   let paciente = this.servicio.get(`${this.servidor}/api/paciente/${id}`);
+   let paciente = this.servicio.get<Paciente>(`${this.servidor}/api/paciente/${id}`);
    return paciente;
   }
 
